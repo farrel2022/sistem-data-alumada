@@ -14,7 +14,6 @@ function App() {
   const [sites, setSites] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Daftar jabatan sesuai urutan yang diminta
   const jabatanList = [
     'Security Officer',
     'Team Leader Security Officer',
@@ -71,11 +70,6 @@ function App() {
       const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1, defval: '' });
       
       if (jsonData.length > 1) {
-        // Struktur kolom Excel:
-        // 0:SITE, 1:POS, 2:KTP, 3:Posisi/jabatan, 4:IDK, 5:SUB, 6:POS Absen, 
-        // 7:Key-SITE, 8:Simbol, 9:EntryDate, 10:Mark, 11:NIK, 12:Nama, 
-        // 13:GP, 14:Aktif, 15:Kode Absen, 16:Index, 17:Full Code1, 18:LSP
-        
         const dataRows = jsonData.slice(1).map((row, idx) => ({
           no: idx + 1,
           site: row[0] || '',
@@ -228,7 +222,6 @@ function App() {
   return (
     <div style={{ minHeight: '100vh', background: 'linear-gradient(to bottom right, #eff6ff, #e0e7ff)', padding: '24px' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-        {/* Header */}
         <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', padding: '24px', marginBottom: '24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -248,7 +241,6 @@ function App() {
           </div>
         </div>
 
-        {/* Filters */}
         <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', padding: '24px', marginBottom: '24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
             <Filter size={24} color="#2563eb" />
@@ -256,7 +248,6 @@ function App() {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
-            {/* Search */}
             <div style={{ gridColumn: 'span 2' }}>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>
                 <Search size={16} style={{ display: 'inline', marginRight: '4px' }} />
@@ -271,7 +262,6 @@ function App() {
               />
             </div>
 
-            {/* Filter SITE */}
             <div>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>
                 <Building2 size={16} style={{ display: 'inline', marginRight: '4px' }} />
@@ -289,7 +279,6 @@ function App() {
               </select>
             </div>
 
-            {/* Filter Jabatan */}
             <div>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>
                 <Briefcase size={16} style={{ display: 'inline', marginRight: '4px' }} />
@@ -307,7 +296,6 @@ function App() {
               </select>
             </div>
 
-            {/* Filter GP */}
             <div>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>
                 <FileCheck size={16} style={{ display: 'inline', marginRight: '4px' }} />
@@ -324,7 +312,6 @@ function App() {
               </select>
             </div>
 
-            {/* Filter LSP */}
             <div>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>
                 <Award size={16} style={{ display: 'inline', marginRight: '4px' }} />
@@ -356,7 +343,6 @@ function App() {
           </div>
         </div>
 
-        {/* Data Table */}
         <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', overflow: 'hidden' }}>
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -366,7 +352,6 @@ function App() {
                   <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Key-SITE</th>
                   <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>SUB</th>
                   <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Pos Absen</th>
-                  <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>POS</th>
                   <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>NAMA</th>
                   <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>JABATAN</th>
                   <th style={{ padding: '16px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>GP</th>
@@ -376,7 +361,7 @@ function App() {
               <tbody>
                 {filteredData.length === 0 ? (
                   <tr>
-                    <td colSpan="9" style={{ padding: '48px', textAlign: 'center', color: '#6b7280' }}>
+                    <td colSpan="8" style={{ padding: '48px', textAlign: 'center', color: '#6b7280' }}>
                       <Users size={48} style={{ margin: '0 auto 12px', color: '#9ca3af' }} />
                       <p style={{ fontSize: '18px', fontWeight: '500', margin: '0 0 8px 0' }}>Tidak ada data ditemukan</p>
                       <p style={{ fontSize: '14px', margin: 0 }}>Coba ubah filter atau upload data Excel</p>
@@ -389,7 +374,6 @@ function App() {
                       <td style={{ padding: '16px 20px', fontSize: '14px', fontWeight: '500', color: '#2563eb', whiteSpace: 'nowrap' }}>{item.keySite}</td>
                       <td style={{ padding: '16px 20px', fontSize: '14px', color: '#111827' }}>{item.sub}</td>
                       <td style={{ padding: '16px 20px', fontSize: '14px', color: '#111827' }}>{item.posAbsen}</td>
-                      <td style={{ padding: '16px 20px', fontSize: '14px', color: '#111827' }}>{item.pos}</td>
                       <td style={{ padding: '16px 20px', fontSize: '14px', fontWeight: '500', color: '#111827', whiteSpace: 'nowrap' }}>{item.nama}</td>
                       <td style={{ padding: '16px 20px', fontSize: '14px', color: '#111827', whiteSpace: 'nowrap' }}>{item.posisiJabatan}</td>
                       <td style={{ padding: '16px 20px', textAlign: 'center' }}>
