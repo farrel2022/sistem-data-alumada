@@ -25,6 +25,10 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
+    {
+      "src": "favicon.ico",
+      "type": "image/png"
+    }
   ],
   
   "categories": ["business", "productivity"],
