@@ -366,7 +366,7 @@ function App() {
                   <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Key-SITE</th>
                   <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>SUB</th>
                   <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Pos Absen</th>
-                  <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>IDK</th>
+                  <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>POS</th>
                   <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>NAMA</th>
                   <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>JABATAN</th>
                   <th style={{ padding: '16px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>GP</th>
@@ -389,7 +389,7 @@ function App() {
                       <td style={{ padding: '16px 20px', fontSize: '14px', fontWeight: '500', color: '#2563eb', whiteSpace: 'nowrap' }}>{item.keySite}</td>
                       <td style={{ padding: '16px 20px', fontSize: '14px', color: '#111827' }}>{item.sub}</td>
                       <td style={{ padding: '16px 20px', fontSize: '14px', color: '#111827' }}>{item.posAbsen}</td>
-                      <td style={{ padding: '16px 20px', fontSize: '14px', color: '#111827' }}>{item.idk}</td>
+                      <td style={{ padding: '16px 20px', fontSize: '14px', color: '#111827' }}>{item.pos}</td>
                       <td style={{ padding: '16px 20px', fontSize: '14px', fontWeight: '500', color: '#111827', whiteSpace: 'nowrap' }}>{item.nama}</td>
                       <td style={{ padding: '16px 20px', fontSize: '14px', color: '#111827', whiteSpace: 'nowrap' }}>{item.posisiJabatan}</td>
                       <td style={{ padding: '16px 20px', textAlign: 'center' }}>
