@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import * as XLSX from 'xlsx';
-import { Search, Filter, Upload, Users, Building2, FileCheck, Award, X, Briefcase } from 'lucide-react';
+import {
+  Search, Filter, Upload, Users,
+  Building2, FileCheck, Award, X, Briefcase
+} from 'lucide-react';
 import './App.css';
+
 
 function App() {
   const [allData, setAllData] = useState([]);
@@ -14,7 +18,7 @@ function App() {
   const [sites, setSites] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Daftar jabatan sesuai urutan yang diminta
+
   const jabatanList = [
     'Security Officer',
     'Team Leader Security Officer',
@@ -53,14 +57,55 @@ function App() {
     'Binlat',
     'Trainer'
   ];
+const applyFilters = useCallback(() => {
+  let filtered = [...allData];
+
+  if (searchTerm) {
+    filtered = filtered.filter(item =>
+      item.nama.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+
+  if (filterSite) {
+    filtered = filtered.filter(item => item.site === filterSite);
+  }
+
+  if (filterJabatan) {
+    filtered = filtered.filter(item => {
+      const jabatan = item.posisiJabatan.toLowerCase().trim();
+      const filterJab = filterJabatan.toLowerCase().trim();
+      return jabatan.includes(filterJab) || filterJab.includes(jabatan);
+    });
+  }
+
+  if (filterGP) {
+    if (filterGP === 'ADA') {
+      filtered = filtered.filter(item => item.gp && item.gp.toString().trim() !== '');
+    } else if (filterGP === 'TIDAK ADA') {
+      filtered = filtered.filter(item => !item.gp || item.gp.toString().trim() === '');
+    }
+  }
+
+  if (filterLSP) {
+    if (filterLSP === 'ADA') {
+      filtered = filtered.filter(item => item.lsp && item.lsp.toString().trim() !== '');
+    } else if (filterLSP === 'TIDAK ADA') {
+      filtered = filtered.filter(item => !item.lsp || item.lsp.toString().trim() === '');
+    }
+  }
+
+  setFilteredData(filtered);
+
+}, [allData, searchTerm, filterSite, filterGP, filterLSP, filterJabatan]);
 
   useEffect(() => {
     loadInitialData();
   }, []);
 
- useEffect(() => {
+useEffect(() => {
   applyFilters();
 }, [applyFilters]);
+
 
   const loadInitialData = async () => {
     try {
@@ -130,47 +175,7 @@ function App() {
     reader.readAsArrayBuffer(file);
   };
 
-  const applyFilters = useCallback(() => {
-  let filtered = [...allData];
-
-  if (searchTerm) {
-    filtered = filtered.filter(item =>
-      item.nama.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }
-
-  if (filterSite) {
-    filtered = filtered.filter(item => item.site === filterSite);
-  }
-
-  if (filterJabatan) {
-    filtered = filtered.filter(item => {
-      const jabatan = item.posisiJabatan.toLowerCase().trim();
-      const filterJab = filterJabatan.toLowerCase().trim();
-      return jabatan.includes(filterJab) || filterJab.includes(jabatan);
-    });
-  }
-
-  if (filterGP) {
-    if (filterGP === 'ADA') {
-      filtered = filtered.filter(item => item.gp && item.gp.toString().trim() !== '');
-    } else if (filterGP === 'TIDAK ADA') {
-      filtered = filtered.filter(item => !item.gp || item.gp.toString().trim() === '');
-    }
-  }
-
-  if (filterLSP) {
-    if (filterLSP === 'ADA') {
-      filtered = filtered.filter(item => item.lsp && item.lsp.toString().trim() !== '');
-    } else if (filterLSP === 'TIDAK ADA') {
-      filtered = filtered.filter(item => !item.lsp || item.lsp.toString().trim() === '');
-    }
-  }
-
-  setFilteredData(filtered);
-
-}, [allData, searchTerm, filterSite, filterGP, filterLSP, filterJabatan]);
-
+  
 
   const resetFilters = () => {
     setSearchTerm('');
@@ -202,7 +207,7 @@ function App() {
   return (
     <div style={{ minHeight: '100vh', background: 'linear-gradient(to bottom right, #eff6ff, #e0e7ff)', padding: '24px' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-        {/* Header */}
+        
         <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', padding: '24px', marginBottom: '24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -222,7 +227,7 @@ function App() {
           </div>
         </div>
 
-        {/* Filters */}
+        
         <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', padding: '24px', marginBottom: '24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
             <Filter size={24} color="#2563eb" />
@@ -230,7 +235,7 @@ function App() {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
-            {/* Search */}
+            
             <div style={{ gridColumn: window.innerWidth < 768 ? 'span 1' : 'span 2' }}>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>
                 <Search size={16} style={{ display: 'inline', marginRight: '4px' }} />
@@ -245,7 +250,7 @@ function App() {
               />
             </div>
 
-            {/* Filter SITE */}
+            
             <div>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>
                 <Building2 size={16} style={{ display: 'inline', marginRight: '4px' }} />
@@ -263,7 +268,7 @@ function App() {
               </select>
             </div>
 
-            {/* Filter Jabatan */}
+           
             <div>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>
                 <Briefcase size={16} style={{ display: 'inline', marginRight: '4px' }} />
@@ -281,7 +286,7 @@ function App() {
               </select>
             </div>
 
-            {/* Filter GP */}
+          
             <div>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>
                 <FileCheck size={16} style={{ display: 'inline', marginRight: '4px' }} />
