@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import * as XLSX from 'xlsx';
 import { Search, Filter, Upload, Users, Building2, FileCheck, Award, X, Briefcase } from 'lucide-react';
 import './App.css';
@@ -58,9 +58,9 @@ function App() {
     loadInitialData();
   }, []);
 
-  useEffect(() => {
-    applyFilters();
-  }, [searchTerm, filterSite, filterGP, filterLSP, filterJabatan, allData]);
+ useEffect(() => {
+  applyFilters();
+}, [applyFilters]);
 
   const loadInitialData = async () => {
     try {
@@ -130,45 +130,47 @@ function App() {
     reader.readAsArrayBuffer(file);
   };
 
-  const applyFilters = () => {
-    let filtered = [...allData];
+  const applyFilters = useCallback(() => {
+  let filtered = [...allData];
 
-    if (searchTerm) {
-      filtered = filtered.filter(item =>
-        item.nama.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+  if (searchTerm) {
+    filtered = filtered.filter(item =>
+      item.nama.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+
+  if (filterSite) {
+    filtered = filtered.filter(item => item.site === filterSite);
+  }
+
+  if (filterJabatan) {
+    filtered = filtered.filter(item => {
+      const jabatan = item.posisiJabatan.toLowerCase().trim();
+      const filterJab = filterJabatan.toLowerCase().trim();
+      return jabatan.includes(filterJab) || filterJab.includes(jabatan);
+    });
+  }
+
+  if (filterGP) {
+    if (filterGP === 'ADA') {
+      filtered = filtered.filter(item => item.gp && item.gp.toString().trim() !== '');
+    } else if (filterGP === 'TIDAK ADA') {
+      filtered = filtered.filter(item => !item.gp || item.gp.toString().trim() === '');
     }
+  }
 
-    if (filterSite) {
-      filtered = filtered.filter(item => item.site === filterSite);
+  if (filterLSP) {
+    if (filterLSP === 'ADA') {
+      filtered = filtered.filter(item => item.lsp && item.lsp.toString().trim() !== '');
+    } else if (filterLSP === 'TIDAK ADA') {
+      filtered = filtered.filter(item => !item.lsp || item.lsp.toString().trim() === '');
     }
+  }
 
-    if (filterJabatan) {
-      filtered = filtered.filter(item => {
-        const jabatan = item.posisiJabatan.toLowerCase().trim();
-        const filterJab = filterJabatan.toLowerCase().trim();
-        return jabatan.includes(filterJab) || filterJab.includes(jabatan);
-      });
-    }
+  setFilteredData(filtered);
 
-    if (filterGP) {
-      if (filterGP === 'ADA') {
-        filtered = filtered.filter(item => item.gp && item.gp.toString().trim() !== '');
-      } else if (filterGP === 'TIDAK ADA') {
-        filtered = filtered.filter(item => !item.gp || item.gp.toString().trim() === '');
-      }
-    }
+}, [allData, searchTerm, filterSite, filterGP, filterLSP, filterJabatan]);
 
-    if (filterLSP) {
-      if (filterLSP === 'ADA') {
-        filtered = filtered.filter(item => item.lsp && item.lsp.toString().trim() !== '');
-      } else if (filterLSP === 'TIDAK ADA') {
-        filtered = filtered.filter(item => !item.lsp || item.lsp.toString().trim() === '');
-      }
-    }
-
-    setFilteredData(filtered);
-  };
 
   const resetFilters = () => {
     setSearchTerm('');
