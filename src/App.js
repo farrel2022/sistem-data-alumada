@@ -71,36 +71,20 @@ function App() {
       const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1, defval: '' });
       
       if (jsonData.length > 1) {
-        // Struktur kolom Excel:
-        // 0:SITE, 1:POS, 2:KTP, 3:Posisi/jabatan, 4:IDK, 5:SUB, 6:POS Absen, 
-        // 7:Key-SITE, 8:Simbol, 9:EntryDate, 10:Mark, 11:NIK, 12:Nama, 
-        // 13:GP, 14:Aktif, 15:Kode Absen, 16:Index, 17:Full Code1, 18:LSP
         
         const dataRows = jsonData.slice(1).map((row, idx) => ({
-          no: idx + 1,
-          site: row[0] || '',
-          pos: row[1] || '',
-          ktp: row[2] || '',
-          posisiJabatan: row[3] || '',
-          idk: row[4] || '',
-          sub: row[5] || '',
-          posAbsen: row[6] || '',
-          keySite: row[7] || '',
-          simbol: row[8] || '',
-          entryDate: row[9] || '',
-          mark: row[10] || '',
-          nik: row[11] || '',
-          nama: row[12] || '',
-          gp: row[13] || '',
-          aktif: row[14] || '',
-          kodeAbsen: row[15] || '',
-          index: row[16] || '',
-          fullCode1: row[17] || '',
-          lsp: row[18] || ''
+            no: idx + 1,
+            site: row[0] || '',
+            posAbsen: row[1] || '',
+            posisiJabatan: row[2] || '',
+            nama: row[3] || '',
+            KodeAbsen: row[4] || '',
+            gp: row[5] || '',
+            lsp: row[6] || ''
         })).filter(item => item.nama);
         
         setAllData(dataRows);
-        const uniqueSites = [...new Set(dataRows.map(d => d.keySite))].filter(Boolean).sort();
+        const uniqueSites = [...new Set(dataRows.map(d => d.site))].filter(Boolean).sort();
         setSites(uniqueSites);
       }
       setLoading(false);
@@ -126,28 +110,16 @@ function App() {
           const dataRows = jsonData.slice(1).map((row, idx) => ({
             no: idx + 1,
             site: row[0] || '',
-            pos: row[1] || '',
-            ktp: row[2] || '',
-            posisiJabatan: row[3] || '',
-            idk: row[4] || '',
-            sub: row[5] || '',
-            posAbsen: row[6] || '',
-            keySite: row[7] || '',
-            simbol: row[8] || '',
-            entryDate: row[9] || '',
-            mark: row[10] || '',
-            nik: row[11] || '',
-            nama: row[12] || '',
-            gp: row[13] || '',
-            aktif: row[14] || '',
-            kodeAbsen: row[15] || '',
-            index: row[16] || '',
-            fullCode1: row[17] || '',
-            lsp: row[18] || ''
+            posAbsen: row[1] || '',
+            posisiJabatan: row[2] || '',
+            nama: row[3] || '',
+            KodeAbsen: row[4] || '',
+            gp: row[5] || '',
+            lsp: row[6] || ''
           })).filter(item => item.nama);
           
           setAllData(dataRows);
-          const uniqueSites = [...new Set(dataRows.map(d => d.keySite))].filter(Boolean).sort();
+          const uniqueSites = [...new Set(dataRows.map(d => d.site))].filter(Boolean).sort();
           setSites(uniqueSites);
           alert(`Berhasil import ${dataRows.length} data petugas!`);
         }
@@ -168,7 +140,7 @@ function App() {
     }
 
     if (filterSite) {
-      filtered = filtered.filter(item => item.keySite === filterSite);
+      filtered = filtered.filter(item => item.site === filterSite);
     }
 
     if (filterJabatan) {
@@ -257,7 +229,7 @@ function App() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
             {/* Search */}
-            <div style={{ gridColumn: 'span 2' }}>
+            <div style={{ gridColumn: window.innerWidth < 768 ? 'span 1' : 'span 2' }}>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>
                 <Search size={16} style={{ display: 'inline', marginRight: '4px' }} />
                 Cari Nama Petugas
@@ -267,7 +239,7 @@ function App() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Ketik nama petugas..."
-                style={{ width: '100%', border: '1px solid #d1d5db', borderRadius: '8px', padding: '8px 16px', fontSize: '14px' }}
+                style={{ width: '100%', border: '1px solid #d1d5db', borderRadius: '8px', padding: '10px 12px', fontSize: '14px' }}
               />
             </div>
 
@@ -280,7 +252,7 @@ function App() {
               <select
                 value={filterSite}
                 onChange={(e) => setFilterSite(e.target.value)}
-                style={{ width: '100%', border: '1px solid #d1d5db', borderRadius: '8px', padding: '8px 16px', fontSize: '14px' }}
+                style={{ width: '100%', border: '1px solid #d1d5db', borderRadius: '8px', padding: '10px 12px', fontSize: '14px' }}
               >
                 <option value="">Semua SITE</option>
                 {sites.map(site => (
@@ -298,7 +270,7 @@ function App() {
               <select
                 value={filterJabatan}
                 onChange={(e) => setFilterJabatan(e.target.value)}
-                style={{ width: '100%', border: '1px solid #d1d5db', borderRadius: '8px', padding: '8px 16px', fontSize: '14px' }}
+                style={{ width: '100%', border: '1px solid #d1d5db', borderRadius: '8px', padding: '10px 12px', fontSize: '14px' }}
               >
                 <option value="">Semua Jabatan</option>
                 {jabatanList.map((jabatan, idx) => (
@@ -316,7 +288,7 @@ function App() {
               <select
                 value={filterGP}
                 onChange={(e) => setFilterGP(e.target.value)}
-                style={{ width: '100%', border: '1px solid #d1d5db', borderRadius: '8px', padding: '8px 16px', fontSize: '14px' }}
+                style={{ width: '100%', border: '1px solid #d1d5db', borderRadius: '8px', padding: '10px 12px', fontSize: '14px' }}
               >
                 <option value="">Semua Status</option>
                 <option value="ADA">Ada GP</option>
@@ -333,7 +305,7 @@ function App() {
               <select
                 value={filterLSP}
                 onChange={(e) => setFilterLSP(e.target.value)}
-                style={{ width: '100%', border: '1px solid #d1d5db', borderRadius: '8px', padding: '8px 16px', fontSize: '14px' }}
+                style={{ width: '100%', border: '1px solid #d1d5db', borderRadius: '8px', padding: '10px 12px', fontSize: '14px' }}
               >
                 <option value="">Semua Status</option>
                 <option value="ADA">Ada LSP</option>
@@ -363,11 +335,10 @@ function App() {
               <thead style={{ background: 'linear-gradient(to right, #2563eb, #4f46e5)' }}>
                 <tr>
                   <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>No</th>
-                  <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Key-SITE</th>
-                  <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>SUB</th>
+                  <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>SITE</th>
                   <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Pos Absen</th>
-                  <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>IDK</th>
                   <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>NAMA</th>
+                  <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>kode Absen</th>
                   <th style={{ padding: '16px 20px', textAlign: 'left', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>JABATAN</th>
                   <th style={{ padding: '16px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>GP</th>
                   <th style={{ padding: '16px 20px', textAlign: 'center', fontSize: '12px', fontWeight: 'bold', color: 'white', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>LSP</th>
@@ -376,7 +347,7 @@ function App() {
               <tbody>
                 {filteredData.length === 0 ? (
                   <tr>
-                    <td colSpan="9" style={{ padding: '48px', textAlign: 'center', color: '#6b7280' }}>
+                    <td colSpan="8" style={{ padding: '48px', textAlign: 'center', color: '#6b7280' }}>
                       <Users size={48} style={{ margin: '0 auto 12px', color: '#9ca3af' }} />
                       <p style={{ fontSize: '18px', fontWeight: '500', margin: '0 0 8px 0' }}>Tidak ada data ditemukan</p>
                       <p style={{ fontSize: '14px', margin: 0 }}>Coba ubah filter atau upload data Excel</p>
@@ -386,11 +357,10 @@ function App() {
                   filteredData.map((item, idx) => (
                     <tr key={idx} style={{ borderBottom: '1px solid #e5e7eb' }}>
                       <td style={{ padding: '16px 20px', fontSize: '14px', color: '#111827' }}>{idx + 1}</td>
-                      <td style={{ padding: '16px 20px', fontSize: '14px', fontWeight: '500', color: '#2563eb', whiteSpace: 'nowrap' }}>{item.keySite}</td>
-                      <td style={{ padding: '16px 20px', fontSize: '14px', color: '#111827' }}>{item.sub}</td>
+                      <td style={{ padding: '16px 20px', fontSize: '14px', fontWeight: '500', color: '#111827', whiteSpace: 'nowrap' }}>{item.site}</td>
                       <td style={{ padding: '16px 20px', fontSize: '14px', color: '#111827' }}>{item.posAbsen}</td>
-                      <td style={{ padding: '16px 20px', fontSize: '14px', color: '#111827' }}>{item.idk}</td>
                       <td style={{ padding: '16px 20px', fontSize: '14px', fontWeight: '500', color: '#111827', whiteSpace: 'nowrap' }}>{item.nama}</td>
+                      <td style={{ padding: '16px 20px', fontSize: '14px', fontWeight: '500', color: '#111827', whiteSpace: 'nowrap' }}>{item.KodeAbsen}</td>
                       <td style={{ padding: '16px 20px', fontSize: '14px', color: '#111827', whiteSpace: 'nowrap' }}>{item.posisiJabatan}</td>
                       <td style={{ padding: '16px 20px', textAlign: 'center' }}>
                         <span style={{
